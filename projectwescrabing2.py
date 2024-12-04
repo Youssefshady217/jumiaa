@@ -10,15 +10,21 @@ from selenium.common.exceptions import TimeoutException
 
 
 
+import os, sys
+
+
+@st.cache_resource
+def installff():
+    os.system('sbase install geckodriver')
+    os.system('ln -s /home/appuser/venv/lib/python3.10/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/geckodriver')
+
 def init_driver():
+    installff()
     firefox_profile = webdriver.FirefoxProfile()
     firefox_profile.set_preference('dom.ipc.plugins.enabled.libflashplayer.so', False)
     firefox_profile.set_preference("media.volume_scale", "0.0")
     firefox_profile.set_preference("dom.webnotifications.enabled", False)
-    TIMEOUT = 20
-
     st.title("Test Selenium")
-
     firefoxOptions = Options()
     firefoxOptions.add_argument("--headless")
     driver = webdriver.Firefox(options=firefoxOptions)
